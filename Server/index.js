@@ -1,7 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
-
+const Item = require('./itemSchema'); 
 
 const app = express();
 app.use(express.json());
@@ -22,6 +22,34 @@ const ShopingSchema = new mongoose.Schema({
 });
 
 const Shoppingmodel = mongoose.model('Shoping', ShopingSchema);
+
+const itemSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true  // Name field required hai
+    },
+    description: {
+        type: String,
+        required: true  // Description field required hai
+    },
+    imageUrl: {
+        type: String,
+        required: true  // Image URL bhi required hai
+    }
+});
+
+const Item = mongoose.model('Item', itemSchema);
+
+
+app.get('/api/items', async (req, res) => {
+    try {
+        const items = await Item.find(); 
+        res.json(items);                 
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
