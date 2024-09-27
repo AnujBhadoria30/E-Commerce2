@@ -7,9 +7,10 @@ function Main() {
     const [items, setItems] = useState([]);
 
     useEffect(() => {
-      const x=axios.get('http://localhost:5000/api/items')  // Backend API se data fetch karo
-      console.log(x)
+      axios.get('http://localhost:5000/api/items')  // Backend API se data fetch karo
         .then((response) => {
+          console.log("hit the api", response);
+          
           setItems(response.data);  // Data ko state me store karo
         })
         .catch((error) => {

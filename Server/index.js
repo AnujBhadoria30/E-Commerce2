@@ -1,61 +1,41 @@
-const express = require('express')
-const mongoose = require('mongoose')
-const cors = require('cors')
-const Item = require('./itemSchema'); 
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const { Shoppingmodel, Item } = require('./models/E-commerce');  // Import models from E-commerce.js
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-//mongodb+srv://anujbhadoria:bhadoriaanuj6363@cluster0.8cybfre.mongodb.net/yeh DB ka naam h =>{E-Commerce}?retryWrites=true&w=majority&appName=Cluster0
-mongoose.connect("mongodb+srv://anujbhadoria:bhadoriaanuj6363@cluster0.8cybfre.mongodb.net/E-Commerce?retryWrites=true&w=majority&appName=Cluster0")
-    .then(() => console.log("MongoDB connected", {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    }))
+// Connect to MongoDB
+mongoose.connect("mongodb+srv://anujbhadoria:bhadoriaanuj6363@cluster0.8cybfre.mongodb.net/E-Commerce?retryWrites=true&w=majority&appName=Cluster0", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
+    .then(() => console.log("MongoDB connected"))
     .catch(err => console.error("MongoDB connection error:", err));
 
-const ShopingSchema = new mongoose.Schema({
-    name: String,
-    email: String,
-    password: String,
-});
-
-const Shoppingmodel = mongoose.model('Shoping', ShopingSchema);
-
-const itemSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true  // Name field required hai
-    },
-    description: {
-        type: String,
-        required: true  // Description field required hai
-    },
-    imageUrl: {
-        type: String,
-        required: true  // Image URL bhi required hai
-    }
-});
-
-const Item = mongoose.model('Item', itemSchema);
-
-
+// Item routes
 app.get('/api/items', async (req, res) => {
     try {
-        const items = await Item.find(); 
-        res.json(items);                 
+        const items = await Item.find();
+        const items_get = await Shoppingmodel.find();
+        console.log("items getting ",items_get);
+        
+        console.log(items);
+          // Fetch all items from the Item model
+        res.json(items);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 });
 
-
+// User login route
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        const user = await Shoppingmodel.findOne({ email });
+        const user = await Shoppingmodel.findOne({ email });  // Find user by email in Shoppingmodel (Shoping collection)
 
         if (!user) {
             return res.status(400).json({ message: "User not found" });
@@ -65,80 +45,28 @@ app.post('/login', async (req, res) => {
             return res.status(400).json({ message: "Invalid password" });
         }
 
-        res.json("Success");
+        res.json("Login successful");
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Server error" });
-        console.log("Login Request received: ", email, password);
     }
-})
+});
+
+// User registration route
 app.post('/register', async (req, res) => {
     const { name, email, password } = req.body;
 
     try {
-       
-        const newEmployee = new Shoppingmodel({ name, email, password });
-
-      
+        const newEmployee = new Shoppingmodel({ name, email, password });  // Create a new user using the Shoppingmodel
         await newEmployee.save();
-
         res.status(200).json({ message: 'User registered successfully!' });
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'Error saving user' });
-        console.log("Register Request received: ", email, password);
     }
 });
 
+// Start the server
 app.listen(5000, () => {
     console.log("Server is running on port 5000");
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// app.use(express.json()) isliye use kiya jaata hai taaki aapko client se jo bhi JSON format mein data milta hai, usko automatically JavaScript object mein convert kar sakein. Isse aap request body ke data ko easily access aur handle kar paate ho, jaise form submission ya API ke through data bhejna.
