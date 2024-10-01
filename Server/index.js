@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const { Verifymodel, Item } = require('./models/E-commerce');  // Import models from E-commerce.js
+// const { Verifymodel, Item } = require('./models/E-commerce');  // Import models from E-commerce.js
 
 const app = express();
 app.use(express.json());
@@ -14,6 +14,14 @@ mongoose.connect("mongodb+srv://anujbhadoria:bhadoriaanuj6363@cluster0.8cybfre.m
 })
     .then(() => console.log("MongoDB connected"))
     .catch(err => console.error("MongoDB connection error:", err));
+
+
+    const VarifySchema = new mongoose.Schema({
+        name: String,
+        email: String,
+        password: String,
+    });
+    const Verifymodel = mongoose.model('Verify', VarifySchema);  
 
 // Item routes
 app.get('/api/items', async (req, res) => {
@@ -35,7 +43,6 @@ app.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        navigator
         const user = await Verifymodel.findOne({ email });  
 
         if (!user) {
@@ -50,6 +57,7 @@ app.post('/login', async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Server error" });
+        console.log("Login Request received: ", email, password);
     }
 });
 
@@ -58,7 +66,7 @@ app.post('/register', async (req, res) => {
     const { name, email, password } = req.body;
 
     try {
-        const newEmployee = new Shoppingmodel({ name, email, password });  // Create a new user using the Shoppingmodel
+        const newEmployee = new Verifymodel({ name, email, password });  // Create a new user using the Shoppingmodel
         await newEmployee.save();
         res.status(200).json({ message: 'User registered successfully!' });
     } catch (err) {

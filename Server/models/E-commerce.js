@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 // Define the schema for users
-const varifySchema = new mongoose.Schema({
+const VarifySchema = new mongoose.Schema({
     name: String,
     email: String,
     password: String,
@@ -24,7 +24,7 @@ const itemSchema = new mongoose.Schema({
 });
 
 // Create models for both schemas
-const Verifymodel = mongoose.model('Verify', varifySchema);  
+const Verifymodel = mongoose.model('Verify', VarifySchema);  
 const Item = mongoose.model('Item', itemSchema,"mydata"); 
 
 // Export both models

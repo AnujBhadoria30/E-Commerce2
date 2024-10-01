@@ -10,7 +10,7 @@ function Login() {
     const navigate = useNavigate();
 
     const handleSubmit = (e) => {
-        e.preventDefault(); // Prevent default form submission
+        e.preventDefault(); 
 
         if (!email || !password) {
             setError('Please enter both email and password');
@@ -21,7 +21,7 @@ function Login() {
 
         axios.post('http://localhost:5000/login', Data)
             .then(result => {
-                console.log(result.data); // Log the response data for debugging
+                console.log(result.data); 
                 if (result.data === "Success") {
                     navigate('/home');  
                 } else {
