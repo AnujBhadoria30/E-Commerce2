@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 // Define the schema for users
-const ShopingSchema = new mongoose.Schema({
+const varifySchema = new mongoose.Schema({
     name: String,
     email: String,
     password: String,
@@ -24,11 +24,11 @@ const itemSchema = new mongoose.Schema({
 });
 
 // Create models for both schemas
-const Shoppingmodel = mongoose.model('Shoping', ShopingSchema);  // Model for 'Shoping' collection
+const Verifymodel = mongoose.model('Verify', varifySchema);  
 const Item = mongoose.model('Item', itemSchema,"mydata"); 
 
 // Export both models
 module.exports = {
-    Shoppingmodel,
+    Verifymodel,
     Item
 };

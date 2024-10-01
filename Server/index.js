@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const { Shoppingmodel, Item } = require('./models/E-commerce');  // Import models from E-commerce.js
+const { Verifymodel, Item } = require('./models/E-commerce');  // Import models from E-commerce.js
 
 const app = express();
 app.use(express.json());
@@ -19,7 +19,7 @@ mongoose.connect("mongodb+srv://anujbhadoria:bhadoriaanuj6363@cluster0.8cybfre.m
 app.get('/api/items', async (req, res) => {
     try {
         const items = await Item.find();
-        const items_get = await Shoppingmodel.find();
+        const items_get = await Verifymodel.find();
         console.log("items getting ",items_get);
         
         console.log(items);
@@ -36,7 +36,7 @@ app.post('/login', async (req, res) => {
 
     try {
         navigator
-        const user = await Shoppingmodel.findOne({ email });  // Find user by email in Shoppingmodel (Shoping collection)
+        const user = await Verifymodel.findOne({ email });  
 
         if (!user) {
             return res.status(400).json({ message: "User not found" });
