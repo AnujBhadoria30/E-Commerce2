@@ -25,7 +25,7 @@ const itemSchema = new mongoose.Schema({
 
 // Create models for both schemas
 const Shoppingmodel = mongoose.model('Shoping', ShopingSchema);  // Model for 'Shoping' collection
-const Item = mongoose.model('Item', itemSchema,"mydata");  // Model for 'Item' collection
+const Item = mongoose.model('Item', itemSchema,"mydata"); 
 
 // Export both models
 module.exports = {

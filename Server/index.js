@@ -35,6 +35,7 @@ app.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
     try {
+        navigator
         const user = await Shoppingmodel.findOne({ email });  // Find user by email in Shoppingmodel (Shoping collection)
 
         if (!user) {
